@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Fitness Tracker</h1>
+    </header>
+
+    <div id="workout-log">
+        <h2>Workout Log</h2>
+        <ul id="log-list"></ul>
+    </div>
+
+    <div id="goal-form">
+        <h2>Set Goal</h2>
+        <label for="goal-input">Minutes of Exercise:</label>
+        <input type="number" id="goal-input" placeholder="Enter minutes">
+        <button onclick="setGoal()">Set Goal</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+#workout-log, #goal-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+button {
+    cursor: pointer;
+    padding: 10px;
+}
+const logList = document.getElementById('log-list');
+const goalInput = document.getElementById('goal-input');
+
+function setGoal() {
+    const goalValue = parseInt(goalInput.value);
+
+    if (isNaN(goalValue) || goalValue <= 0) {
+        alert('Please enter a valid goal.');
+        return;
+    }
+
+    localStorage.setItem('fitnessGoal', goalValue);
+    alert('Goal set successfully!');
+}
+
+function logWorkout() {
+    const currentTime = new Date();
+    const workoutTime = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
+    
+    const logItem = document.createElement('li');
+    logItem.textContent = `Workout logged at ${workoutTime}`;
+    logList.appendChild(logItem);
+}
+
+// Load goal from localStorage if it exists
+const savedGoal = localStorage.getItem('fitnessGoal');
+if (savedGoal) {
+    goalInput.value = savedGoal;
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    const logButton = document.createElement('button');
+    logButton.textContent = 'Log Workout';
+    logButton.addEventListener('click', logWorkout);
+
+    const logForm = document.getElementById('workout-log');
+    logForm.appendChild(logButton);
+});
