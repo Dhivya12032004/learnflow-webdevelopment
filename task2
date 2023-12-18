@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Streaming Service</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Music Streaming Service</h1>
+    </header>
+
+    <div id="music-player">
+        <h2>Now Playing</h2>
+        <img id="album-cover" src="default-cover.jpg" alt="Album Cover">
+        <p id="song-info">Song Title - Artist</p>
+        <audio id="audio-player" controls></audio>
+    </div>
+
+    <div id="playlist">
+        <h2>Playlist</h2>
+        <ul id="playlist-items"></ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+#music-player, #playlist {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}const playlistItems = [
+    { id: 1, title: 'Song 1', artist: 'Artist 1', audioUrl: 'song1.mp3', coverUrl: 'cover1.jpg' },
+    { id: 2, title: 'Song 2', artist: 'Artist 2', audioUrl: 'song2.mp3', coverUrl: 'cover2.jpg' },
+    { id: 3, title: 'Song 3', artist: 'Artist 3', audioUrl: 'song3.mp3', coverUrl: 'cover3.jpg' },
+    // Add more songs as needed
+];
+
+const playlistContainer = document.getElementById('playlist-items');
+const audioPlayer = document.getElementById('audio-player');
+const albumCover = document.getElementById('album-cover');
+const songInfo = document.getElementById('song-info');
+
+function initPlaylist() {
+    playlistItems.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<button onclick="playSong(${item.id})">${item.title} - ${item.artist}</button>`;
+        playlistContainer.appendChild(listItem);
+    });
+}
+
+function playSong(songId) {
+    const selectedSong = playlistItems.find(item => item.id === songId);
+
+    if (selectedSong) {
+        audioPlayer.src = selectedSong.audioUrl;
+        albumCover.src = selectedSong.coverUrl;
+        songInfo.textContent = `${selectedSong.title} - ${selectedSong.artist}`;
+        audioPlayer.play();
+    }
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', initPlaylist);
+
+
+#audio-player {
+    width: 100%;
+    margin-top: 10px;
+}
+
+img {
+    max-width: 100%;
+}
+
+button {
+    cursor: pointer;
+    padding: 10px;
+}
